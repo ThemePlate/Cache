@@ -43,6 +43,12 @@ class Cache {
 			unset( self::$storage[ $key ] );
 		}
 
+		if ( array_key_exists( $key . '_saved', self::$storage ) ) {
+			unset( self::$storage[ $key . '_saved' ] );
+		}
+
+		delete_transient( $key . '_saved' );
+
 		return delete_transient( $key );
 
 	}
