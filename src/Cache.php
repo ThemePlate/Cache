@@ -99,8 +99,10 @@ class Cache {
 		if ( ! $serve ) {
 			$value = @file_get_contents( $path );
 
-			self::set( $key . '_saved', $f_time );
-			self::set( $key, $value );
+			if ( $value ) {
+				self::set( $key . '_saved', $f_time );
+				self::set( $key, $value );
+			}
 		}
 
 		return $value;
