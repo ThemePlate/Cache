@@ -79,4 +79,32 @@ class Cache {
 
 	}
 
+
+	public static function file( $key, $path ) {
+
+		$serve = true;
+		$value = self::get( $key );
+
+		if ( false == $value ) {
+			$serve = false;
+		}
+
+		$s_time = self::get( $key . '_saved' );
+		$f_time = @filemtime( $path );
+
+		if ( $s_time < $f_time ) {
+			$serve = false;
+		}
+
+		if ( ! $serve ) {
+			$value = @file_get_contents( $path );
+
+			self::set( $key . '_saved', $f_time );
+			self::set( $key, $value );
+		}
+
+		return $value;
+
+	}
+
 }
