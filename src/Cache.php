@@ -85,7 +85,7 @@ class Cache {
 		$serve = true;
 		$value = self::get( $key );
 
-		if ( false == $value ) {
+		if ( false === $value ) {
 			$serve = false;
 		}
 
