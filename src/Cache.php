@@ -64,4 +64,19 @@ class Cache {
 
 	}
 
+
+	public static function forget( $key, $default = null ) {
+
+		$value = self::get( $key );
+
+		if ( false !== $value ) {
+			self::delete( $key );
+
+			return $value;
+		}
+
+		return $default;
+
+	}
+
 }
