@@ -21,7 +21,7 @@ class Cache {
 	}
 
 
-	public static function set( $key, $value, $expiration ) {
+	public static function set( $key, $value, $expiration = 0 ) {
 
 		return set_transient( self::$prefix . $key, $value, $expiration );
 
