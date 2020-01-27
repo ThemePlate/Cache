@@ -28,7 +28,7 @@ class Cache {
 
 		$key = self::$prefix . $key;
 
-		self::$storage[ $key ] = $value . time();
+		self::$storage[ $key ] = $value;
 
 		return set_transient( $key, $value, $expiration );
 
