@@ -12,25 +12,38 @@ namespace ThemePlate;
 class Cache {
 
 	private static $prefix = 'tpc_';
+	public static $storage = array();
 
 
 	public static function get( $key ) {
 
-		return get_transient( self::$prefix . $key );
+		$key = self::$prefix . $key;
+
+		return self::$storage[ $key ] ?? get_transient( $key );
 
 	}
 
 
 	public static function set( $key, $value, $expiration = 0 ) {
 
-		return set_transient( self::$prefix . $key, $value, $expiration );
+		$key = self::$prefix . $key;
+
+		self::$storage[ $key ] = $value . time();
+
+		return set_transient( $key, $value, $expiration );
 
 	}
 
 
 	public static function delete( $key ) {
 
-		return delete_transient( self::$prefix . $key );
+		$key = self::$prefix . $key;
+
+		if ( array_key_exists( $key, self::$storage ) ) {
+			unset( self::$storage[ $key ] );
+		}
+
+		return delete_transient( $key );
 
 	}
 
