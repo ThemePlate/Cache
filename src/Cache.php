@@ -47,4 +47,21 @@ class Cache {
 
 	}
 
+
+	public static function remember( $key, $callback, $expiration = 0 ) {
+
+		$value = self::get( $key );
+
+		if ( false !== $value ) {
+			return $value;
+		}
+
+		$value = $callback();
+
+		self::set( $key, $value, $expiration );
+
+		return $value;
+
+	}
+
 }
