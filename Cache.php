@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Helper for convinient fragment caching
+ * Helper for convenient fragment caching
  *
  * @package ThemePlate
  * @since 0.1.0
