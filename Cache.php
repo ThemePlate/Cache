@@ -62,7 +62,9 @@ class Cache {
 
 		$value = $callback();
 
-		self::set( $key, $value, $expiration );
+		if ( ! is_wp_error( $value ) ) {
+			self::set( $key, $value, $expiration );
+		}
 
 		return $value;
 
