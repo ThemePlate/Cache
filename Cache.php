@@ -12,7 +12,7 @@ namespace ThemePlate;
 class Cache {
 
 	private static $prefix = 'tpc_';
-	public static $storage = array();
+	private static $storage = array();
 
 
 	public static function get( $key ) {
