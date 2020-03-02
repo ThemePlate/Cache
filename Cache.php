@@ -30,7 +30,7 @@ class Cache {
 
 		self::$storage[ $key ] = $value;
 
-		return set_transient( $key, $value, $expiration );
+		return set_transient( $key, $value, (int) $expiration );
 
 	}
 
