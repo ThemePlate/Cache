@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Helper for convenient fragment caching
+ * Convenient fragment caching methods
  *
  * @package ThemePlate
  * @since 0.1.0
@@ -11,7 +11,7 @@ namespace ThemePlate;
 
 class Cache {
 
-	private static $prefix = 'tpc_';
+	private static $prefix  = 'tpc_';
 	private static $storage = array();
 
 

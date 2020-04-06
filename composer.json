@@ -1,6 +1,6 @@
 {
     "name": "themeplate/cache",
-    "description" : "ThemePlate fragment cache",
+    "description" : "Convenient fragment caching methods",
     "license": "GPL-3.0",
     "authors": [
         {
