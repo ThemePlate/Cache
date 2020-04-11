@@ -57,9 +57,7 @@ class Cache {
 
 		$value = $callback();
 
-		if ( ! is_wp_error( $value ) ) {
-			self::set_data( $key, compact( 'value', 'expiration', 'callback' ) );
-		}
+		self::set_data( $key, compact( 'value', 'expiration', 'callback' ) );
 
 		return $value;
 
@@ -145,10 +143,12 @@ class Cache {
 
 	public static function set_data( $key, $data ) {
 
-		$data['timeout'] = time() + $data['expiration'];
+		if ( ! is_wp_error( $data['value'] ) ) {
+			$data['timeout'] = time() + $data['expiration'];
 
-		update_option( self::$prefix . $key, $data, false );
-		self::set( $key, $data['value'], $data['expiration'] );
+			update_option( self::$prefix . $key, $data, false );
+			self::set( $key, $data['value'], $data['expiration'] );
+		}
 
 	}
 
