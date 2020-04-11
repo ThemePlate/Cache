@@ -96,12 +96,7 @@ class Cache {
 		}
 
 		if ( ! $serve ) {
-			$value = @file_get_contents( $path );
-
-			if ( $value ) {
-				self::set( $key . '_saved', $f_time );
-				self::set( $key, $value );
-			}
+			self::set_file( $key, $value, compact( 'path', 'f_time' ) );
 		}
 
 		return $value;
@@ -158,6 +153,31 @@ class Cache {
 		$data['value'] = $data['callback']();
 
 		self::set_data( $key, $data );
+
+	}
+
+
+	private static function set_file( $key, &$value, $file ) {
+
+		if ( false === $value || ! self::$tasks instanceof Tasks ) {
+			$value = self::update_file( $key, $file );
+		} else {
+			self::$tasks->add( array( Cache::class, 'update_file' ), array( $key, $file ) );
+		}
+
+	}
+
+
+	public static function update_file( $key, $file ) {
+
+		$value = @file_get_contents( $file['path'] );
+
+		if ( $value ) {
+			self::set( $key . '_saved', $file['f_time'] );
+			self::set( $key, $value );
+		}
+
+		return $value;
 
 	}
 
