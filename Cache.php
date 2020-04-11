@@ -11,7 +11,9 @@ namespace ThemePlate;
 
 class Cache {
 
+	private static $prefix  = 'tpc_';
 	private static $storage = array();
+	private static $tasks;
 
 
 	public static function get( $key ) {
@@ -47,7 +49,7 @@ class Cache {
 
 	public static function remember( $key, $callback, $expiration = 0 ) {
 
-		$value = self::get( $key );
+		$value = self::get_data( $key );
 
 		if ( false !== $value ) {
 			return $value;
@@ -56,7 +58,7 @@ class Cache {
 		$value = $callback();
 
 		if ( ! is_wp_error( $value ) ) {
-			self::set( $key, $value, $expiration );
+			self::set_data( $key, compact( 'value', 'expiration', 'callback' ) );
 		}
 
 		return $value;
@@ -105,6 +107,57 @@ class Cache {
 		}
 
 		return $value;
+
+	}
+
+
+	public static function processor() {
+
+		self::$tasks = new Tasks( __CLASS__ );
+
+		if ( ! defined( 'DOING_AJAX' ) ) {
+			add_action( 'shutdown', array( self::$tasks, 'execute' ) );
+		}
+
+		return self::$tasks;
+
+	}
+
+
+	private static function get_data( $key ) {
+
+		$data = get_option( self::$prefix . $key );
+
+		if ( false !== $data ) {
+			if ( time() > $data['timeout'] ) {
+				if ( self::$tasks instanceof Tasks ) {
+					self::$tasks->add( array( Cache::class, 'update_data' ), array( $key, $data ) );
+				} else {
+					self::update_data( $key, $data );
+				}
+			}
+		}
+
+		return $data['value'] ?? self::get( $key );
+
+	}
+
+
+	public static function set_data( $key, $data ) {
+
+		$data['timeout'] = time() + $data['expiration'];
+
+		update_option( self::$prefix . $key, $data, false );
+		self::set( $key, $data['value'], $data['expiration'] );
+
+	}
+
+
+	public static function update_data( $key, $data ) {
+
+		$data['value'] = $data['callback']();
+
+		self::set_data( $key, $data );
 
 	}
 
