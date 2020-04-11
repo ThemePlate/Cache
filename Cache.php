@@ -69,6 +69,7 @@ class Cache {
 		$value = self::get( $key );
 
 		if ( false !== $value ) {
+			delete_option( self::$prefix . $key );
 			self::delete( $key );
 
 			return $value;
