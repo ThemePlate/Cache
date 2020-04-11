@@ -121,7 +121,7 @@ class Cache {
 
 		$data = get_option( self::$prefix . $key );
 
-		if ( false !== $data ) {
+		if ( false !== $data && ! isset( $_REQUEST[ 'tpt_' . __CLASS__ ] ) ) {
 			if ( time() > $data['timeout'] ) {
 				if ( self::$tasks instanceof Tasks ) {
 					self::$tasks->add( array( Cache::class, 'update_data' ), array( $key, $data ) );
@@ -159,10 +159,12 @@ class Cache {
 
 	private static function set_file( $key, &$value, $file ) {
 
-		if ( false === $value || ! self::$tasks instanceof Tasks ) {
-			$value = self::update_file( $key, $file );
-		} else {
-			self::$tasks->add( array( Cache::class, 'update_file' ), array( $key, $file ) );
+		if ( ! isset( $_REQUEST[ 'tpt_' . __CLASS__ ] ) ) {
+			if ( false === $value || ! self::$tasks instanceof Tasks ) {
+				$value = self::update_file( $key, $file );
+			} else {
+				self::$tasks->add( array( Cache::class, 'update_file' ), array( $key, $file ) );
+			}
 		}
 
 	}
