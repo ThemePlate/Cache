@@ -142,9 +142,12 @@ class Cache {
 	private static function set_data( $key, $data ) {
 
 		if ( ! is_wp_error( $data['value'] ) ) {
-			$data['timeout'] = time() + $data['expiration'];
+			if ( ! is_object( $data['callback'] ) ) {
+				$data['timeout'] = time() + $data['expiration'];
 
-			update_option( self::$prefix . $key, $data, false );
+				update_option( self::$prefix . $key, $data, false );
+			}
+
 			self::set( $key, $data['value'], $data['expiration'] );
 		}
 
