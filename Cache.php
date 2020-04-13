@@ -107,7 +107,9 @@ class Cache {
 
 	public static function processor() {
 
-		self::$tasks = new Tasks( __CLASS__ );
+		if ( ! self::$tasks instanceof Tasks ) {
+			self::$tasks = new Tasks( __CLASS__ );
+		}
 
 		if ( ! defined( 'DOING_AJAX' ) ) {
 			add_action( 'shutdown', array( self::$tasks, 'execute' ) );
@@ -137,7 +139,7 @@ class Cache {
 	}
 
 
-	public static function set_data( $key, $data ) {
+	private static function set_data( $key, $data ) {
 
 		if ( ! is_wp_error( $data['value'] ) ) {
 			$data['timeout'] = time() + $data['expiration'];
