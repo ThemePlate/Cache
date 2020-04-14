@@ -111,11 +111,7 @@ class Cache {
 
 		if ( false !== $data && ! self::background_update() ) {
 			if ( time() > $data['timeout'] ) {
-				if ( self::$tasks instanceof Tasks ) {
-					self::$tasks->add( array( Cache::class, 'set_data' ), array( $key, $data ) );
-				} else {
-					$data['value'] = self::set_data( $key, $data );
-				}
+				$data['value'] = self::action_update( 'set_data', array( $key, $data ) ) ?? $data['value'];
 			}
 		}
 
@@ -151,11 +147,7 @@ class Cache {
 			$time = @filemtime( $path );
 
 			if ( self::get( $key . '_saved' ) < $time ) {
-				if ( self::$tasks instanceof Tasks ) {
-					self::$tasks->add( array( Cache::class, 'set_file' ), array( $key, compact( 'path', 'time' ) ) );
-				} else {
-					$value = self::set_file( $key, compact( 'path', 'time' ) );
-				}
+				$value = self::action_update( 'set_file', array( $key, compact( 'path', 'time' ) ) ) ?? $value;
 			}
 		}
 
@@ -185,6 +177,19 @@ class Cache {
 		}
 
 		return isset( $_REQUEST['action'] ) && self::$tasks->get_identifier() === $_REQUEST['action'];
+
+	}
+
+
+	private static function action_update( $method, $args ) {
+
+		if ( self::$tasks instanceof Tasks ) {
+			self::$tasks->add( array( Cache::class, $method ), $args );
+		} else {
+			return call_user_func( self::$method, $args );
+		}
+
+		return null;
 
 	}
 
