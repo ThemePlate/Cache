@@ -18,6 +18,13 @@ $processor = Cache::processor();
 $processor->report( function( $output ) {
 	error_log( print_r( $output, true ) );
 } );
+
+
+function hourly_moment() {
+	return 'to remember ' . time();
+}
+
+Cache::remember( 'unique_key', 'hourly_moment', HOUR_IN_SECONDS );
 ```
 
 ### Cache::remember( $key, $callback, $expiration )
@@ -45,3 +52,5 @@ Like `remember` but, uses the file contents and no expiration, automatically upd
 ### Cache::processor()
 
 Support for soft-expiration, `Cache::remember`\* and `Cache::file` updates in the background
+
+> Except for using anonymous function as callback (closure)
