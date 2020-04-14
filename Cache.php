@@ -186,7 +186,7 @@ class Cache {
 		if ( self::$tasks instanceof Tasks ) {
 			self::$tasks->add( array( Cache::class, $method ), $args );
 		} else {
-			return call_user_func( self::$method, $args );
+			return call_user_func_array( array( Cache::class, $method ), $args );
 		}
 
 		return null;
