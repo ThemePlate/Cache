@@ -78,22 +78,11 @@ class Cache {
 
 	public static function file( $key, $path ) {
 
-		$serve = true;
-		$value = self::get( $key );
+		$value = self::get_file( $key, $path );
 
 		if ( false === $value ) {
-			$serve = false;
-		}
-
-		$s_time = self::get( $key . '_saved' );
-		$f_time = @filemtime( $path );
-
-		if ( $s_time < $f_time ) {
-			$serve = false;
-		}
-
-		if ( ! $serve ) {
-			self::set_file( $key, $value, compact( 'path', 'f_time' ) );
+			$time  = @filemtime( $path );
+			$value = self::set_file( $key, compact( 'path', 'time' ) );
 		}
 
 		return $value;
@@ -154,25 +143,33 @@ class Cache {
 	}
 
 
-	private static function set_file( $key, &$value, $file ) {
+	private static function get_file( $key, $path ) {
 
-		if ( ! self::background_update() ) {
-			if ( false === $value || ! self::$tasks instanceof Tasks ) {
-				$value = self::update_file( $key, $file );
-			} else {
-				self::$tasks->add( array( Cache::class, 'update_file' ), array( $key, $file ) );
+		$value = self::get( $key );
+
+		if ( false !== $value && ! self::background_update() ) {
+			$time = @filemtime( $path );
+
+			if ( self::get( $key . '_saved' ) < $time ) {
+				if ( self::$tasks instanceof Tasks ) {
+					self::$tasks->add( array( Cache::class, 'set_file' ), array( $key, compact( 'path', 'time' ) ) );
+				} else {
+					$value = self::set_file( $key, compact( 'path', 'time' ) );
+				}
 			}
 		}
+
+		return $value;
 
 	}
 
 
-	public static function update_file( $key, $file ) {
+	public static function set_file( $key, $file ) {
 
 		$value = @file_get_contents( $file['path'] );
 
 		if ( $value ) {
-			self::set( $key . '_saved', $file['f_time'] );
+			self::set( $key . '_saved', $file['time'] );
 			self::set( $key, $value );
 		}
 
