@@ -51,13 +51,9 @@ class Cache {
 
 		$value = self::get_data( $key );
 
-		if ( false !== $value ) {
-			return $value;
+		if ( false === $value ) {
+			$value = self::set_data( $key, compact( 'expiration', 'callback' ) );
 		}
-
-		$value = $callback();
-
-		self::set_data( $key, compact( 'value', 'expiration', 'callback' ) );
 
 		return $value;
 
@@ -127,9 +123,9 @@ class Cache {
 		if ( false !== $data && ! self::background_update() ) {
 			if ( time() > $data['timeout'] ) {
 				if ( self::$tasks instanceof Tasks ) {
-					self::$tasks->add( array( Cache::class, 'update_data' ), array( $key, $data ) );
+					self::$tasks->add( array( Cache::class, 'set_data' ), array( $key, $data ) );
 				} else {
-					self::update_data( $key, $data );
+					$data['value'] = self::set_data( $key, $data );
 				}
 			}
 		}
@@ -139,7 +135,9 @@ class Cache {
 	}
 
 
-	private static function set_data( $key, $data ) {
+	public static function set_data( $key, $data ) {
+
+		$data['value'] = $data['callback']();
 
 		if ( ! is_wp_error( $data['value'] ) ) {
 			if ( ! is_object( $data['callback'] ) ) {
@@ -151,14 +149,7 @@ class Cache {
 			self::set( $key, $data['value'], $data['expiration'] );
 		}
 
-	}
-
-
-	public static function update_data( $key, $data ) {
-
-		$data['value'] = $data['callback']();
-
-		self::set_data( $key, $data );
+		return $data['value'];
 
 	}
 
