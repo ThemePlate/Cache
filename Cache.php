@@ -182,9 +182,9 @@ class Cache {
 	private static function action_update( $method, $args ) {
 
 		if ( self::$tasks instanceof Tasks ) {
-			self::$tasks->add( array( Cache::class, $method ), $args );
+			self::$tasks->add( array( __CLASS__, $method ), $args );
 		} else {
-			return call_user_func_array( array( Cache::class, $method ), $args );
+			return call_user_func_array( array( __CLASS__, $method ), $args );
 		}
 
 		return null;
