@@ -109,10 +109,8 @@ class Cache {
 
 		$data = get_option( self::$prefix . $key );
 
-		if ( false !== $data && ! self::background_update() ) {
-			if ( time() > $data['timeout'] ) {
-				$data['value'] = self::action_update( 'set_data', array( $key, $data ) ) ?? $data['value'];
-			}
+		if ( false !== $data && ! self::background_update() && time() > $data['timeout'] ) {
+			$data['value'] = self::action_update( 'set_data', array( $key, $data ) ) ?? $data['value'];
 		}
 
 		return $data['value'] ?? self::get( $key );
