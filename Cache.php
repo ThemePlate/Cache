@@ -11,28 +11,28 @@ namespace ThemePlate;
 
 class Cache {
 
-	private static $prefix  = 'tpc_';
-	private static $storage = array();
+	private static string $prefix = 'tpc_';
+	private static array $storage = array();
 	private static $tasks;
 
 
-	public static function get( $key ) {
+	public static function get( string $key ) {
 
 		return self::$storage[ $key ] ?? get_transient( $key );
 
 	}
 
 
-	public static function set( $key, $value, $expiration = 0 ) {
+	public static function set( string $key, $value, int $expiration = 0 ): bool {
 
 		self::$storage[ $key ] = $value;
 
-		return set_transient( $key, $value, (int) $expiration );
+		return set_transient( $key, $value, $expiration );
 
 	}
 
 
-	public static function delete( $key ) {
+	public static function delete( string $key ): bool {
 
 		if ( array_key_exists( $key, self::$storage ) ) {
 			unset( self::$storage[ $key ] );
@@ -47,7 +47,7 @@ class Cache {
 	}
 
 
-	public static function remember( $key, $callback, $expiration = 0 ) {
+	public static function remember( string $key, callable $callback, int $expiration = 0 ) {
 
 		$value = self::get_data( $key );
 
@@ -60,7 +60,7 @@ class Cache {
 	}
 
 
-	public static function forget( $key, $default = null ) {
+	public static function forget( string $key, $default = null ) {
 
 		$value = self::get( $key );
 
@@ -76,7 +76,7 @@ class Cache {
 	}
 
 
-	public static function file( $key, $path ) {
+	public static function file( string $key, string $path ) {
 
 		$value = self::get_file( $key, $path );
 
@@ -90,7 +90,7 @@ class Cache {
 	}
 
 
-	public static function processor() {
+	public static function processor(): Tasks {
 
 		if ( ! self::$tasks instanceof Tasks ) {
 			self::$tasks = new Tasks( __CLASS__ );
@@ -105,7 +105,7 @@ class Cache {
 	}
 
 
-	private static function get_data( $key ) {
+	private static function get_data( string $key ) {
 
 		$data = get_option( self::$prefix . $key );
 
@@ -118,7 +118,7 @@ class Cache {
 	}
 
 
-	public static function set_data( $key, $data ) {
+	public static function set_data( string $key, array $data ) {
 
 		$data['value'] = $data['callback']();
 
@@ -137,7 +137,7 @@ class Cache {
 	}
 
 
-	private static function get_file( $key, $path ) {
+	private static function get_file( string $key, string $path ) {
 
 		$value = self::get( $key );
 
@@ -154,7 +154,7 @@ class Cache {
 	}
 
 
-	public static function set_file( $key, $file ) {
+	public static function set_file( string $key, array $file ) {
 
 		$value = @file_get_contents( $file['path'] );
 
@@ -168,7 +168,7 @@ class Cache {
 	}
 
 
-	private static function background_update() {
+	private static function background_update(): bool {
 
 		if ( ! self::$tasks instanceof Tasks ) {
 			return false;
@@ -179,7 +179,7 @@ class Cache {
 	}
 
 
-	private static function action_update( $method, $args ) {
+	private static function action_update( string $method, array $args ) {
 
 		if ( self::$tasks instanceof Tasks ) {
 			self::$tasks->add( array( __CLASS__, $method ), $args );

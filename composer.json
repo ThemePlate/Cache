@@ -1,20 +1,20 @@
 {
-    "name": "themeplate/cache",
-    "description" : "Convenient fragment caching methods",
-    "license": "GPL-3.0",
-    "authors": [
-        {
-            "name": "Gene Alyson Fortunado Torcende",
-            "email": "genealyson.torcende@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^7.2|^8.0",
-        "themeplate/process": "^1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "ThemePlate\\": ""
-        }
-    }
+	"name": "themeplate/cache",
+	"description": "Convenient fragment caching methods",
+	"license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Gene Alyson Fortunado Torcende",
+			"email": "genealyson.torcende@gmail.com"
+		}
+	],
+	"require": {
+		"php": "^7.4|^8.0",
+		"themeplate/process": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"ThemePlate\\": ""
+		}
+	}
 }
