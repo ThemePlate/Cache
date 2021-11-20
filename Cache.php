@@ -13,7 +13,7 @@ class Cache {
 
 	private static string $prefix = 'tpc_';
 	private static array $storage = array();
-	private static $tasks;
+	private static ?Tasks $tasks  = null;
 
 
 	public static function get( string $key ) {
@@ -81,7 +81,7 @@ class Cache {
 		$value = self::get_file( $key, $path );
 
 		if ( false === $value ) {
-			$time  = @filemtime( $path );
+			$time  = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 			$value = self::set_file( $key, compact( 'path', 'time' ) );
 		}
 
@@ -142,7 +142,7 @@ class Cache {
 		$value = self::get( $key );
 
 		if ( false !== $value && ! self::background_update() ) {
-			$time = @filemtime( $path );
+			$time = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
 			if ( self::get( $key . '_saved' ) < $time ) {
 				$value = self::action_update( 'set_file', array( $key, compact( 'path', 'time' ) ) ) ?? $value;
@@ -156,7 +156,7 @@ class Cache {
 
 	public static function set_file( string $key, array $file ) {
 
-		$value = @file_get_contents( $file['path'] );
+		$value = @file_get_contents( $file['path'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
 		if ( $value ) {
 			self::set( $key . '_saved', $file['time'] );
@@ -174,6 +174,7 @@ class Cache {
 			return false;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification
 		return isset( $_REQUEST['action'] ) && self::$tasks->get_identifier() === $_REQUEST['action'];
 
 	}
