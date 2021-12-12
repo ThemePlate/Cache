@@ -24,18 +24,29 @@ class Manager {
 	}
 
 
-	private function get( string $key ) {
+	private function get( string $key, bool $data = false ) {
+
+		if ( $data ) {
+			$key = $this->prefix . $key;
+		}
 
 		return $this->storage[ $key ] ?? get_option( $key );
 
 	}
 
 
-	private function set( string $key, $value ): bool {
+	private function set( string $key, $value, bool $data = false ): bool {
+
+		$autoload = 'yes';
+
+		if ( $data ) {
+			$key      = $this->prefix . $key;
+			$autoload = 'no';
+		}
 
 		$this->storage[ $key ] = $value;
 
-		return update_option( $key, $value );
+		return update_option( $key, $value, $autoload );
 
 	}
 
@@ -46,11 +57,11 @@ class Manager {
 			unset( $this->storage[ $key ] );
 		}
 
-		if ( array_key_exists( $key . '_saved', $this->storage ) ) {
-			unset( $this->storage[ $key . '_saved' ] );
+		if ( array_key_exists( $this->prefix . $key, $this->storage ) ) {
+			unset( $this->storage[ $this->prefix . $key ] );
 		}
 
-		return (bool) ( delete_option( $key ) | delete_option( $key . '_saved' ) );
+		return (bool) ( delete_option( $key ) | delete_option( $this->prefix . $key ) );
 
 	}
 
@@ -73,7 +84,6 @@ class Manager {
 		$value = $this->get( $key );
 
 		if ( false !== $value ) {
-			$this->delete( $this->prefix . $key );
 			$this->delete( $key );
 
 			return $value;
@@ -100,7 +110,7 @@ class Manager {
 
 	private function get_data( string $key ) {
 
-		$data = $this->get( $this->prefix . $key );
+		$data = $this->get( $key, true );
 
 		if ( false !== $data && ! $this->background_update() && time() > $data['timeout'] ) {
 			$data['value'] = $this->action_update( 'set_data', array( $key, $data ) ) ?? $data['value'];
@@ -119,7 +129,7 @@ class Manager {
 			if ( ! is_object( $data['callback'] ) ) {
 				$data['timeout'] = time() + $data['expiration'];
 
-				$this->set( $this->prefix . $key, $data );
+				$this->set( $key, $data, true );
 			}
 
 			$this->set( $key, $data['value'] );
@@ -137,7 +147,7 @@ class Manager {
 		if ( false !== $value && ! $this->background_update() ) {
 			$time = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
-			if ( $this->get( $key . '_saved' ) < $time ) {
+			if ( $this->get( $key, true ) < $time ) {
 				$value = $this->action_update( 'set_file', array( $key, compact( 'path', 'time' ) ) ) ?? $value;
 			}
 		}
@@ -152,7 +162,7 @@ class Manager {
 		$value = @file_get_contents( $file['path'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
 		if ( $value ) {
-			$this->set( $key . '_saved', $file['time'] );
+			$this->set( $key, $file['time'], true );
 			$this->set( $key, $value );
 		}
 
