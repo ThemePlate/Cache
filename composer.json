@@ -14,7 +14,10 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"ThemePlate\\": ""
-		}
+			"ThemePlate\\Cache\\": "src"
+		},
+		"files": [
+			"Cache.php"
+		]
 	}
 }
