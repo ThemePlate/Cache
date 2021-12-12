@@ -9,7 +9,9 @@
 		}
 	],
 	"require": {
-		"php": "^7.4|^8.0",
+		"php": "^7.4|^8.0"
+	},
+	"suggest": {
 		"themeplate/process": "^1.0"
 	},
 	"autoload": {

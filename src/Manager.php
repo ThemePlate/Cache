@@ -13,12 +13,13 @@ class Manager {
 
 	private string $prefix;
 	private array $storage;
-	private ?Tasks $tasks = null;
+	private ?Tasks $tasks;
 
 
-	public function __construct( string $prefix ) {
+	public function __construct( string $prefix, Tasks $tasks = null ) {
 
 		$this->prefix = $prefix;
+		$this->tasks  = $tasks;
 
 	}
 
@@ -93,21 +94,6 @@ class Manager {
 		}
 
 		return $value;
-
-	}
-
-
-	public function processor(): Tasks {
-
-		if ( ! $this->tasks instanceof Tasks ) {
-			$this->tasks = new Tasks( __CLASS__ );
-		}
-
-		if ( ! defined( 'DOING_AJAX' ) ) {
-			add_action( 'shutdown', array( $this->tasks, 'execute' ) );
-		}
-
-		return $this->tasks;
 
 	}
 
