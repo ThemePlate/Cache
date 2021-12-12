@@ -26,16 +26,16 @@ class Manager {
 
 	private function get( string $key ) {
 
-		return $this->storage[ $key ] ?? get_transient( $key );
+		return $this->storage[ $key ] ?? get_option( $key );
 
 	}
 
 
-	private function set( string $key, $value, int $expiration = 0 ): bool {
+	private function set( string $key, $value ): bool {
 
 		$this->storage[ $key ] = $value;
 
-		return set_transient( $key, $value, $expiration );
+		return update_option( $key, $value );
 
 	}
 
@@ -50,7 +50,7 @@ class Manager {
 			unset( $this->storage[ $key . '_saved' ] );
 		}
 
-		return (bool) ( delete_transient( $key ) | delete_transient( $key . '_saved' ) );
+		return (bool) ( delete_option( $key ) | delete_option( $key . '_saved' ) );
 
 	}
 
@@ -73,7 +73,7 @@ class Manager {
 		$value = $this->get( $key );
 
 		if ( false !== $value ) {
-			delete_option( $this->prefix . $key );
+			$this->delete( $this->prefix . $key );
 			$this->delete( $key );
 
 			return $value;
@@ -100,7 +100,7 @@ class Manager {
 
 	private function get_data( string $key ) {
 
-		$data = get_option( $this->prefix . $key );
+		$data = $this->get( $this->prefix . $key );
 
 		if ( false !== $data && ! $this->background_update() && time() > $data['timeout'] ) {
 			$data['value'] = $this->action_update( 'set_data', array( $key, $data ) ) ?? $data['value'];
@@ -119,10 +119,10 @@ class Manager {
 			if ( ! is_object( $data['callback'] ) ) {
 				$data['timeout'] = time() + $data['expiration'];
 
-				update_option( $this->prefix . $key, $data, false );
+				$this->set( $this->prefix . $key, $data );
 			}
 
-			$this->set( $key, $data['value'], $data['expiration'] );
+			$this->set( $key, $data['value'] );
 		}
 
 		return $data['value'];
