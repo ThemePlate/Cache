@@ -40,17 +40,17 @@ class Storage {
 	}
 
 
-	public function delete( string $key ): bool {
+	public function delete( string $key, bool $data = false ): bool {
+
+		if ( $data ) {
+			$key = self::PREFIX . $key;
+		}
 
 		if ( array_key_exists( $key, $this->collection ) ) {
 			unset( $this->collection[ $key ] );
 		}
 
-		if ( array_key_exists( self::PREFIX . $key, $this->collection ) ) {
-			unset( $this->collection[ self::PREFIX . $key ] );
-		}
-
-		return (bool) ( delete_option( $key ) | delete_option( self::PREFIX . $key ) );
+		return delete_option( $key );
 
 	}
 

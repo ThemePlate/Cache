@@ -42,6 +42,7 @@ class Manager {
 
 		if ( false !== $value ) {
 			$this->storage->delete( $key );
+			$this->storage->delete( $key, true );
 
 			return $value;
 		}
