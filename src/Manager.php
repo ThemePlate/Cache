@@ -15,9 +15,9 @@ class Manager {
 	private ?Tasks $tasks;
 
 
-	public function __construct( string $prefix, Tasks $tasks = null ) {
+	public function __construct( Tasks $tasks = null ) {
 
-		$this->storage = new Storage( $prefix );
+		$this->storage = new Storage();
 		$this->tasks   = $tasks;
 
 	}

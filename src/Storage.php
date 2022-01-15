@@ -9,21 +9,14 @@ namespace ThemePlate\Cache;
 
 class Storage {
 
-	private string $prefix;
+	public const PREFIX = 'tpc_';
 	private array $collection;
-
-
-	public function __construct( string $prefix ) {
-
-		$this->prefix = $prefix;
-
-	}
 
 
 	public function get( string $key, bool $data = false ) {
 
 		if ( $data ) {
-			$key = $this->prefix . $key;
+			$key = self::PREFIX . $key;
 		}
 
 		return $this->collection[ $key ] ?? get_option( $key );
@@ -36,7 +29,7 @@ class Storage {
 		$autoload = 'yes';
 
 		if ( $data ) {
-			$key      = $this->prefix . $key;
+			$key      = self::PREFIX . $key;
 			$autoload = 'no';
 		}
 
@@ -53,11 +46,11 @@ class Storage {
 			unset( $this->collection[ $key ] );
 		}
 
-		if ( array_key_exists( $this->prefix . $key, $this->collection ) ) {
-			unset( $this->collection[ $this->prefix . $key ] );
+		if ( array_key_exists( self::PREFIX . $key, $this->collection ) ) {
+			unset( $this->collection[ self::PREFIX . $key ] );
 		}
 
-		return (bool) ( delete_option( $key ) | delete_option( $this->prefix . $key ) );
+		return (bool) ( delete_option( $key ) | delete_option( self::PREFIX . $key ) );
 
 	}
 
