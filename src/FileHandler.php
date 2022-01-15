@@ -17,7 +17,7 @@ class FileHandler extends AbstractHandler {
 			$time = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
 			if ( $this->storage->get( $key, true ) < $time ) {
-				$value = $this->action_update( 'set', array( $key, compact( 'path', 'time' ) ) ) ?? $value;
+				$value = $this->action_update( $key, compact( 'path', 'time' ) ) ?: $value;
 			}
 		}
 

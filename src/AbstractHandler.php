@@ -23,6 +23,9 @@ abstract class AbstractHandler {
 	}
 
 
+	abstract public function set( string $key, array $data );
+
+
 	public function background_update(): bool {
 
 		if ( ! $this->tasks instanceof Tasks ) {
@@ -35,15 +38,15 @@ abstract class AbstractHandler {
 	}
 
 
-	public function action_update( string $method, array $args ) {
+	public function action_update( string $key, array $data ): bool {
 
-		if ( $this->tasks instanceof Tasks ) {
-			$this->tasks->add( array( $this, $method ), $args );
-		} else {
-			return call_user_func_array( array( $this, $method ), $args );
+		if ( ! $this->tasks instanceof Tasks ) {
+			return $this->set( $key, $data );
 		}
 
-		return null;
+		$this->tasks->add( array( $this, 'set' ), array( $key, $data ) );
+
+		return false;
 
 	}
 
