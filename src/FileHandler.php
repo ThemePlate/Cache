@@ -30,7 +30,7 @@ class FileHandler extends AbstractHandler {
 
 		$value = @file_get_contents( $data['path'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
-		if ( $value ) {
+		if ( false !== $value ) {
 			$this->storage->set( $key, $data['time'], true );
 			$this->storage->set( $key, $value );
 		}

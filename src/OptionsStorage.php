@@ -15,7 +15,7 @@ class OptionsStorage extends AbstractStorage {
 			$key = self::PREFIX . $key;
 		}
 
-		return $this->collection[ $key ] ?? get_option( $key );
+		return $this->collection[ $key ] ?? get_option( $key, false );
 
 	}
 

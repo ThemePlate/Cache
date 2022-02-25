@@ -26,7 +26,10 @@ class MetadataStorage extends AbstractStorage {
 			$key = self::PREFIX . $key;
 		}
 
-		return $this->collection[ $key ] ?? get_metadata( $this->meta_type, $this->object_id, $key, true );
+		$value = get_metadata( $this->meta_type, $this->object_id, $key, true );
+		$value = empty( $value ) ? false : $value;
+
+		return $this->collection[ $key ] ?? $value;
 
 	}
 
