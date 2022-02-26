@@ -69,6 +69,12 @@ class StorageManager {
 			$type .= 'meta';
 		}
 
+		if ( ! property_exists( $this, $type ) ) {
+			$type = 'options';
+		}
+
+		$id = absint( $id );
+
 		return compact( 'type', 'id' );
 
 	}
