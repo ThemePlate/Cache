@@ -22,7 +22,7 @@ abstract class AbstractStorage {
 	abstract public function delete( string $key, bool $data = false ): bool;
 
 
-	abstract public function point( int $id ): self;
+	abstract public function point( int $id ): AbstractStorage;
 
 
 	protected function transform( string $field_key, bool $is_data ): string {

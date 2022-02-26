@@ -9,7 +9,7 @@ namespace ThemePlate\Cache;
 
 use ThemePlate\Tasks;
 
-class Manager {
+class CacheManager {
 
 	private StorageManager $storage;
 	private ?Tasks $tasks;
@@ -68,7 +68,7 @@ class Manager {
 	}
 
 
-	public function assign( $field ): Manager {
+	public function assign( $field ): CacheManager {
 
 		$this->storage->set( $field );
 
