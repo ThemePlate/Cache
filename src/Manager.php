@@ -11,13 +11,13 @@ use ThemePlate\Tasks;
 
 class Manager {
 
-	private Storage $storage;
+	private StorageManager $storage;
 	private ?Tasks $tasks;
 
 
 	public function __construct( Tasks $tasks = null ) {
 
-		$this->storage = new Storage();
+		$this->storage = new StorageManager();
 		$this->tasks   = $tasks;
 
 	}
@@ -25,7 +25,7 @@ class Manager {
 
 	public function remember( string $key, callable $callback, int $expiration = 0 ) {
 
-		$handler = new DataHandler( $this->storage, $this->tasks );
+		$handler = new DataHandler( $this->storage->get(), $this->tasks );
 		$value   = $handler->get( $key );
 
 		if ( false === $value ) {
@@ -39,11 +39,11 @@ class Manager {
 
 	public function forget( string $key, $default = null ) {
 
-		$value = $this->storage->get( $key );
+		$value = ( $this->storage->get() )->get( $key );
 
 		if ( false !== $value ) {
-			$this->storage->delete( $key );
-			$this->storage->delete( $key, true );
+			( $this->storage->get() )->delete( $key );
+			( $this->storage->get() )->delete( $key, true );
 
 			return $value;
 		}
@@ -55,7 +55,7 @@ class Manager {
 
 	public function file( string $key, string $path ) {
 
-		$handler = new FileHandler( $this->storage, $this->tasks );
+		$handler = new FileHandler( $this->storage->get(), $this->tasks );
 		$value   = $handler->get( $key, $path );
 
 		if ( false === $value ) {
@@ -64,6 +64,15 @@ class Manager {
 		}
 
 		return $value;
+
+	}
+
+
+	public function assign( $field ): Manager {
+
+		$this->storage->set( $field );
+
+		return $this;
 
 	}
 

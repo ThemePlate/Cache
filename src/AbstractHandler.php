@@ -11,11 +11,11 @@ use ThemePlate\Tasks;
 
 abstract class AbstractHandler {
 
-	protected Storage $storage;
+	protected AbstractStorage $storage;
 	protected ?Tasks $tasks;
 
 
-	public function __construct( Storage $storage, Tasks $tasks = null ) {
+	public function __construct( AbstractStorage $storage, Tasks $tasks = null ) {
 
 		$this->storage = $storage;
 		$this->tasks   = $tasks;
