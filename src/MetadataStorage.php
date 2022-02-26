@@ -22,10 +22,7 @@ class MetadataStorage extends AbstractStorage {
 
 	public function get( string $key, bool $data = false ) {
 
-		if ( $data ) {
-			$key = self::PREFIX . $key;
-		}
-
+		$key   = $this->transform( $key, $data );
 		$value = get_metadata( $this->meta_type, $this->object_id, $key, true );
 		$value = empty( $value ) ? false : $value;
 
@@ -36,9 +33,7 @@ class MetadataStorage extends AbstractStorage {
 
 	public function set( string $key, $value, bool $data = false ): bool {
 
-		if ( $data ) {
-			$key = self::PREFIX . $key;
-		}
+		$key = $this->transform( $key, $data );
 
 		$this->collection[ $key ] = $value;
 
@@ -49,9 +44,7 @@ class MetadataStorage extends AbstractStorage {
 
 	public function delete( string $key, bool $data = false ): bool {
 
-		if ( $data ) {
-			$key = self::PREFIX . $key;
-		}
+		$key = $this->transform( $key, $data );
 
 		if ( array_key_exists( $key, $this->collection ) ) {
 			unset( $this->collection[ $key ] );

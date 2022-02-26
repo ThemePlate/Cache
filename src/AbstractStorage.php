@@ -21,4 +21,11 @@ abstract class AbstractStorage {
 
 	abstract public function delete( string $key, bool $data = false ): bool;
 
+
+	protected function transform( string $field_key, bool $is_data ): string {
+
+		return ( $is_data ? self::PREFIX : '' ) . $field_key;
+
+	}
+
 }

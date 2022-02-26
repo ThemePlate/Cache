@@ -11,9 +11,7 @@ class OptionsStorage extends AbstractStorage {
 
 	public function get( string $key, bool $data = false ) {
 
-		if ( $data ) {
-			$key = self::PREFIX . $key;
-		}
+		$key = $this->transform( $key, $data );
 
 		return $this->collection[ $key ] ?? get_option( $key, false );
 
@@ -22,25 +20,18 @@ class OptionsStorage extends AbstractStorage {
 
 	public function set( string $key, $value, bool $data = false ): bool {
 
-		$autoload = 'yes';
-
-		if ( $data ) {
-			$key      = self::PREFIX . $key;
-			$autoload = 'no';
-		}
+		$key = $this->transform( $key, $data );
 
 		$this->collection[ $key ] = $value;
 
-		return update_option( $key, $value, $autoload );
+		return update_option( $key, $value, $data ? 'no' : 'yes' );
 
 	}
 
 
 	public function delete( string $key, bool $data = false ): bool {
 
-		if ( $data ) {
-			$key = self::PREFIX . $key;
-		}
+		$key = $this->transform( $key, $data );
 
 		if ( array_key_exists( $key, $this->collection ) ) {
 			unset( $this->collection[ $key ] );
