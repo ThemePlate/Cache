@@ -54,4 +54,13 @@ class MetadataStorage extends AbstractStorage {
 
 	}
 
+
+	public function point( int $id ): MetadataStorage {
+
+		$this->object_id = $id;
+
+		return $this;
+
+	}
+
 }

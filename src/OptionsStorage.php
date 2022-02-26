@@ -41,4 +41,11 @@ class OptionsStorage extends AbstractStorage {
 
 	}
 
+
+	public function point( int $id ): OptionsStorage {
+
+		return $this;
+
+	}
+
 }

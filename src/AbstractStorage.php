@@ -22,6 +22,9 @@ abstract class AbstractStorage {
 	abstract public function delete( string $key, bool $data = false ): bool;
 
 
+	abstract public function point( int $id ): self;
+
+
 	protected function transform( string $field_key, bool $is_data ): string {
 
 		return ( $is_data ? self::PREFIX : '' ) . $field_key;
