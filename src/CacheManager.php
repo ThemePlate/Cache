@@ -7,6 +7,8 @@
 
 namespace ThemePlate\Cache;
 
+use ThemePlate\Cache\Handlers\DataHandler;
+use ThemePlate\Cache\Handlers\FileHandler;
 use ThemePlate\Tasks;
 
 class CacheManager {

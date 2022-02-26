@@ -7,6 +7,10 @@
 
 namespace ThemePlate\Cache;
 
+use ThemePlate\Cache\Storages\AbstractStorage;
+use ThemePlate\Cache\Storages\MetadataStorage;
+use ThemePlate\Cache\Storages\OptionsStorage;
+
 class StorageManager {
 
 	private string $type = 'options';

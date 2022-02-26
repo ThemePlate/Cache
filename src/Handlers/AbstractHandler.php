@@ -5,8 +5,9 @@
  * @since   0.1.0
  */
 
-namespace ThemePlate\Cache;
+namespace ThemePlate\Cache\Handlers;
 
+use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Tasks;
 
 abstract class AbstractHandler {

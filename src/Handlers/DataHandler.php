@@ -5,7 +5,7 @@
  * @since   0.1.0
  */
 
-namespace ThemePlate\Cache;
+namespace ThemePlate\Cache\Handlers;
 
 class DataHandler extends AbstractHandler {
 
