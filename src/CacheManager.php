@@ -15,6 +15,7 @@ class CacheManager {
 
 	private StorageManager $storage;
 	private ?Tasks $tasks;
+	private string $last_field;
 
 
 	public function __construct( Tasks $tasks = null ) {
@@ -72,7 +73,20 @@ class CacheManager {
 
 	public function assign( $field ): CacheManager {
 
+		$this->last_field = $this->storage->current() . '_' . ( $this->storage->get() )->pointer();
+
 		$this->storage->set( $field );
+
+		return $this;
+
+	}
+
+
+	public function reset(): CacheManager {
+
+		if ( $this->last_field ) {
+			$this->assign( $this->last_field );
+		}
 
 		return $this;
 

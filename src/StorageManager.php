@@ -31,6 +31,14 @@ class StorageManager {
 
 	}
 
+
+	public function current(): string {
+
+		return $this->type;
+
+	}
+
+
 	public function get(): AbstractStorage {
 
 		return $this->{$this->type};
