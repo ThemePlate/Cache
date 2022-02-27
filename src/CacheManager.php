@@ -73,8 +73,7 @@ class CacheManager {
 
 	public function assign( $field ): CacheManager {
 
-		$this->last_field = $this->storage->current() . '_' . ( $this->storage->get() )->pointer();
-
+		$this->save_field();
 		$this->storage->set( $field );
 
 		return $this;
@@ -89,6 +88,20 @@ class CacheManager {
 		}
 
 		return $this;
+
+	}
+
+
+	private function save_field(): void {
+
+		$storage = $this->storage;
+		$type    = $storage->current();
+
+		if ( 'options' !== $type ) {
+			$type = substr( $type, 0, -4 );
+		}
+
+		$this->last_field = $type . '_' . ( $storage->get() )->pointer();
 
 	}
 
