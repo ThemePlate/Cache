@@ -83,7 +83,7 @@ class CacheManager {
 
 	public function reset(): CacheManager {
 
-		if ( $this->last_field ) {
+		if ( isset( $this->last_field ) ) {
 			$this->assign( $this->last_field );
 		}
 

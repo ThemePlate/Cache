@@ -15,7 +15,7 @@ use ThemePlate\Cache\Storages\UserMetaStorage;
 
 class StorageManager {
 
-	private string $type = 'options';
+	private string $type;
 	private PostMetaStorage $postmeta;
 	private TermMetaStorage $termmeta;
 	private UserMetaStorage $usermeta;
@@ -34,14 +34,14 @@ class StorageManager {
 
 	public function current(): string {
 
-		return $this->type;
+		return $this->type ?? 'options';
 
 	}
 
 
 	public function get(): AbstractStorage {
 
-		return $this->{$this->type};
+		return $this->{$this->current()};
 
 	}
 
@@ -51,7 +51,10 @@ class StorageManager {
 		$decoded    = $this->decode( $field );
 		$this->type = $decoded['type'];
 
-		$this->{$decoded['type']}->point( $decoded['id'] );
+		/** @var AbstractStorage $storage */
+		$storage = $this->{$decoded['type']};
+
+		$storage->point( $decoded['id'] );
 
 	}
 
