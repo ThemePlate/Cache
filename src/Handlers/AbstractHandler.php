@@ -45,9 +45,25 @@ abstract class AbstractHandler {
 			return $this->set( $key, $data );
 		}
 
-		$this->tasks->add( array( $this, 'set' ), array( $key, $data ) );
+		$storage = get_class( $this->storage );
+		$pointer = $this->storage->pointer();
+
+		$this->tasks->add( array( static::class, 'update' ), array( $storage, $pointer, $key, $data ) );
 
 		return false;
+
+	}
+
+
+	public static function update( string $storage, int $pointer, string $key, array $data ) {
+
+		$handler = static::class;
+		/** @var AbstractStorage $storage */
+		$storage = new $storage();
+
+		$storage->point( $pointer );
+
+		return ( new $handler( $storage ) )->set( $key, $data );
 
 	}
 
