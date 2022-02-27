@@ -32,13 +32,13 @@ class Cache {
 	}
 
 
-	public static function processor(): Tasks {
+	public static function processor( Tasks $tasks = null ): Tasks {
 
 		if ( ! self::$tasks instanceof Tasks ) {
-			self::$tasks = new Tasks( __CLASS__ );
+			self::$tasks = $tasks ?? new Tasks( __CLASS__ );
 		}
 
-		if ( ! defined( 'DOING_AJAX' ) ) {
+		if ( ! wp_doing_ajax() ) {
 			add_action( 'shutdown', array( self::$tasks, 'execute' ) );
 		}
 
