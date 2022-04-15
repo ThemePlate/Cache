@@ -26,7 +26,7 @@ class MetadataStorage extends AbstractStorage {
 		$value = get_metadata( $this->meta_type, $this->object_id, $key, true );
 		$value = empty( $value ) ? false : $value;
 
-		return $this->collection[ $key ] ?? $value;
+		return $this->collection[ $this->object_id ][ $key ] ?? $value;
 
 	}
 
@@ -35,7 +35,7 @@ class MetadataStorage extends AbstractStorage {
 
 		$key = $this->transform( $key, $data );
 
-		$this->collection[ $key ] = $value;
+		$this->collection[ $this->object_id ][ $key ] = $value;
 
 		return update_metadata( $this->meta_type, $this->object_id, $key, $value );
 
@@ -46,8 +46,8 @@ class MetadataStorage extends AbstractStorage {
 
 		$key = $this->transform( $key, $data );
 
-		if ( array_key_exists( $key, $this->collection ) ) {
-			unset( $this->collection[ $key ] );
+		if ( array_key_exists( $key, $this->collection[ $this->object_id ] ) ) {
+			unset( $this->collection[ $this->object_id ][ $key ] );
 		}
 
 		return delete_metadata( $this->meta_type, $this->object_id, $key );
