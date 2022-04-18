@@ -11,6 +11,7 @@ namespace ThemePlate;
 
 use Error;
 use ThemePlate\Cache\CacheManager;
+use ThemePlate\Process\Tasks;
 
 class Cache {
 

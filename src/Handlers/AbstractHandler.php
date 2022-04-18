@@ -8,7 +8,7 @@
 namespace ThemePlate\Cache\Handlers;
 
 use ThemePlate\Cache\Storages\AbstractStorage;
-use ThemePlate\Tasks;
+use ThemePlate\Process\Tasks;
 
 abstract class AbstractHandler {
 
