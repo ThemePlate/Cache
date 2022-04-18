@@ -9,7 +9,7 @@ namespace ThemePlate\Cache\Storages;
 
 abstract class AbstractStorage {
 
-	public const PREFIX = 'tpc_';
+	public const PREFIX = 'tcs_';
 	protected array $collection;
 
 
