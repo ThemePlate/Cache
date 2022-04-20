@@ -24,6 +24,9 @@ abstract class AbstractHandler {
 	}
 
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function set( string $key, array $data );
 
 
@@ -39,7 +42,7 @@ abstract class AbstractHandler {
 	}
 
 
-	public function action_update( string $key, array $data ): bool {
+	public function action_update( string $key, array $data ) {
 
 		if ( ! $this->tasks instanceof Tasks ) {
 			return $this->set( $key, $data );
