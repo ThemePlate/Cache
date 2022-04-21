@@ -18,29 +18,29 @@ class DataHandler extends AbstractHandler {
 		}
 
 		if ( ! $this->background_update() && time() > $data['timeout'] ) {
-			$data['value'] = $this->action_update( $key, $data ) ?: $data['value'];
+			$value = $this->action_update( $key, $data );
 		}
 
-		return $data['value'] ?? $this->storage->get( $key );
+		return $value ?? $this->storage->get( $key );
 
 	}
 
 
 	public function set( string $key, array $data ) {
 
-		$data['value'] = $data['callback']();
+		$value = $data['callback']();
 
-		if ( ! is_wp_error( $data['value'] ) ) {
+		if ( ! is_wp_error( $value ) ) {
 			if ( ! is_object( $data['callback'] ) ) {
 				$data['timeout'] = time() + $data['expiration'];
 
 				$this->storage->set( $key, $data, true );
 			}
 
-			$this->storage->set( $key, $data['value'] );
+			$this->storage->set( $key, $value );
 		}
 
-		return $data['value'];
+		return $value;
 
 	}
 
