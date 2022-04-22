@@ -17,11 +17,13 @@ class DataHandler extends AbstractHandler {
 			return false;
 		}
 
+		$value = false;
+
 		if ( ! $this->background_update() && time() > $data['timeout'] ) {
 			$value = $this->action_update( $key, $data );
 		}
 
-		return $value ?? $this->storage->get( $key );
+		return $value ?: $this->storage->get( $key );
 
 	}
 
