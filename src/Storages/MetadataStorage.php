@@ -46,7 +46,7 @@ class MetadataStorage extends AbstractStorage {
 
 		$key = $this->transform( $key, $data );
 
-		if ( array_key_exists( $key, $this->collection[ $this->object_id ] ) ) {
+		if ( array_key_exists( $key, $this->collection[ $this->object_id ] ?? array() ) ) {
 			unset( $this->collection[ $this->object_id ][ $key ] );
 		}
 

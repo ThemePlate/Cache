@@ -33,7 +33,7 @@ class OptionsStorage extends AbstractStorage {
 
 		$key = $this->transform( $key, $data );
 
-		if ( array_key_exists( $key, $this->collection ) ) {
+		if ( array_key_exists( $key, $this->collection ?? array() ) ) {
 			unset( $this->collection[ $key ] );
 		}
 
