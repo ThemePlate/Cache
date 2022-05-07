@@ -51,6 +51,6 @@ Like `remember` but, uses the file contents and no expiration, automatically upd
 
 ### Cache::processor()
 
-Support for soft-expiration, `Cache::remember`\* and `Cache::file` updates in the background
+Support for soft-expiration, `Cache::remember`* and `Cache::file` updates in the background
 
 > Except for using anonymous function as callback (closure)
