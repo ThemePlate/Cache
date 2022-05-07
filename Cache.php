@@ -44,9 +44,9 @@ class Cache {
 	 * Support for soft-expiration; `Cache::remember`* and `Cache::file` updates in the background
 	 * >\**Except for using anonymous function as callback (closure)*
 	 */
-	public static function processor( Tasks $tasks = null ): Tasks {
+	public static function processor( Tasks $tasks = null ): ?Tasks {
 
-		if ( ! self::$tasks instanceof Tasks ) {
+		if ( ! self::$tasks instanceof Tasks && class_exists( Tasks::class ) ) {
 			self::$tasks = $tasks ?? new Tasks( __CLASS__ );
 		}
 
