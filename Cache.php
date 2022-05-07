@@ -50,10 +50,6 @@ class Cache {
 			self::$tasks = $tasks ?? new Tasks( __CLASS__ );
 		}
 
-		if ( ! wp_doing_ajax() ) {
-			add_action( 'shutdown', array( self::$tasks, 'execute' ) );
-		}
-
 		return self::$tasks;
 
 	}
