@@ -29,10 +29,11 @@ class CacheManager {
 	public function remember( string $key, callable $callback, int $expiration = 0 ) {
 
 		$handler = new DataHandler( $this->storage->get(), $this->tasks );
-		$value   = $handler->get( $key );
+		$data    = compact( 'expiration', 'callback' );
+		$value   = $handler->get( $key, $data );
 
 		if ( false === $value ) {
-			$value = $handler->set( $key, compact( 'expiration', 'callback' ) );
+			$value = $handler->set( $key, $data );
 		}
 
 		return $value;

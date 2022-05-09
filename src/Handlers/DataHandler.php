@@ -9,21 +9,15 @@ namespace ThemePlate\Cache\Handlers;
 
 class DataHandler extends AbstractHandler {
 
-	public function get( string $key ) {
+	public function get( string $key, array $data ) {
 
-		$data = $this->storage->get( $key, true );
+		$value = $this->storage->get( $key );
 
-		if ( false === $data ) {
-			return false;
-		}
-
-		$value = false;
-
-		if ( ! $this->background_update() && time() > $data['timeout'] ) {
+		if ( false !== $value && ! $this->background_update() && time() > $this->storage->get( $key, true ) ) {
 			$value = $this->action_update( $key, $data );
 		}
 
-		return $value ?: $this->storage->get( $key );
+		return $value;
 
 	}
 
@@ -34,9 +28,7 @@ class DataHandler extends AbstractHandler {
 
 		if ( ! is_wp_error( $value ) ) {
 			if ( ! is_object( $data['callback'] ) ) {
-				$data['timeout'] = time() + $data['expiration'];
-
-				$this->storage->set( $key, $data, true );
+				$this->storage->set( $key, time() + $data['expiration'], true );
 			}
 
 			$this->storage->set( $key, $value );
