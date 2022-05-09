@@ -38,7 +38,7 @@ abstract class AbstractHandler {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification
-		return $key === $_REQUEST[ AbstractStorage::PREFIX . 'refresh' ];
+		return in_array( $key, (array) $_REQUEST[ AbstractStorage::PREFIX . 'refresh' ], true );
 
 	}
 
