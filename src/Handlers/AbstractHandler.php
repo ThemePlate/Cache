@@ -30,6 +30,19 @@ abstract class AbstractHandler {
 	abstract public function set( string $key, array $data );
 
 
+	public function forced_refresh( string $key ): bool {
+
+		// phpcs:ignore WordPress.Security.NonceVerification
+		if ( empty( $_REQUEST[ AbstractStorage::PREFIX . 'refresh' ] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification
+		return $key === $_REQUEST[ AbstractStorage::PREFIX . 'refresh' ];
+
+	}
+
+
 	public function background_update(): bool {
 
 		if ( ! $this->tasks instanceof Tasks ) {

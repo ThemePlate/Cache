@@ -11,6 +11,10 @@ class DataHandler extends AbstractHandler {
 
 	public function get( string $key, array $data ) {
 
+		if ( $this->forced_refresh( $key ) ) {
+			return false;
+		}
+
 		$value = $this->storage->get( $key );
 
 		if ( false !== $value && ! $this->background_update() && time() > $this->storage->get( $key, true ) ) {

@@ -11,6 +11,10 @@ class FileHandler extends AbstractHandler {
 
 	public function get( string $key, string $path ) {
 
+		if ( $this->forced_refresh( $key ) ) {
+			return false;
+		}
+
 		$value = $this->storage->get( $key );
 
 		if ( false !== $value && ! $this->background_update() ) {
