@@ -27,6 +27,11 @@ function hourly_moment() {
 Cache::remember( 'unique_key', 'hourly_moment', HOUR_IN_SECONDS );
 ```
 
+### Force refresh value/s
+`<WP_HOME>/?tcs_refresh=<single_key>`
+
+`<WP_HOME>/?tcs_refresh[]=<key1>&tcs_refresh[]=<key2>`
+
 ### Cache::remember( $key, $callback, $expiration )
 
 Retrieve content from the cache or, if it doesn't exist, execute $callback and its result is returned then saved
