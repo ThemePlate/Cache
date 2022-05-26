@@ -35,7 +35,7 @@ class Cache {
 			return call_user_func_array( array( self::$manager, $name ), $arguments );
 		}
 
-		throw new Error( 'Call to undefined method ' . __CLASS__ . '::$' . $name );
+		throw new Error( 'Call to undefined method ' . __CLASS__ . '::' . $name . '()' );
 
 	}
 
