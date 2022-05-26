@@ -24,7 +24,7 @@ abstract class AbstractHandler implements HandlerInterface {
 	}
 
 
-	public function forced_refresh( string $key ): bool {
+	protected function forced_refresh( string $key ): bool {
 
 		// phpcs:ignore WordPress.Security.NonceVerification
 		if ( empty( $_REQUEST[ StorageInterface::PREFIX . 'refresh' ] ) ) {
@@ -37,7 +37,7 @@ abstract class AbstractHandler implements HandlerInterface {
 	}
 
 
-	public function background_update(): bool {
+	protected function background_update(): bool {
 
 		if ( ! $this->tasks instanceof Tasks ) {
 			return false;
@@ -49,7 +49,7 @@ abstract class AbstractHandler implements HandlerInterface {
 	}
 
 
-	public function action_update( string $key, array $data ) {
+	protected function action_update( string $key, array $data ) {
 
 		if ( ! $this->tasks instanceof Tasks ) {
 			return $this->set( $key, $data );
