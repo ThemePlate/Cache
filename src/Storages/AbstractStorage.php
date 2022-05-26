@@ -12,7 +12,9 @@ abstract class AbstractStorage {
 	public const PREFIX = 'tcs_';
 	protected array $collection;
 
-
+	/**
+	 * @return mixed
+	 */
 	abstract public function get( string $key, bool $data = false );
 
 

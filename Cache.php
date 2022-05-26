@@ -14,11 +14,11 @@ use ThemePlate\Cache\CacheManager;
 use ThemePlate\Process\Tasks;
 
 /**
- * @method static CacheManager remember( string $key, callable $callback, int $expiration = 0 ) false|mixed
- * @method static CacheManager forget( string $key, $default = null ) mixed|null
- * @method static CacheManager file( string $key, string $path ) false|mixed|string
- * @method static CacheManager assign( $field ) CacheManager
- * @method static CacheManager reset() CacheManager
+ * @method static false|mixed remember( string $key, callable $callback, int $expiration = 0 )
+ * @method static mixed|null forget( string $key, $default = null )
+ * @method static false|string file( string $key, string $path )
+ * @method static CacheManager assign( $field )
+ * @method static CacheManager reset()
  */
 class Cache {
 
