@@ -7,9 +7,11 @@
 
 namespace ThemePlate\Cache;
 
-use ThemePlate\Cache\Storages\MetadataStorage;
 use ThemePlate\Cache\Storages\OptionsStorage;
+use ThemePlate\Cache\Storages\PostMetaStorage;
 use ThemePlate\Cache\Storages\StorageInterface;
+use ThemePlate\Cache\Storages\TermMetaStorage;
+use ThemePlate\Cache\Storages\UserMetaStorage;
 
 class StorageManager {
 
@@ -22,9 +24,9 @@ class StorageManager {
 
 	public function __construct() {
 
-		$this->postmeta = new MetadataStorage( 'post' );
-		$this->termmeta = new MetadataStorage( 'term' );
-		$this->usermeta = new MetadataStorage( 'user' );
+		$this->postmeta = new PostMetaStorage();
+		$this->termmeta = new TermMetaStorage();
+		$this->usermeta = new UserMetaStorage();
 		$this->options  = new OptionsStorage();
 
 	}
