@@ -18,7 +18,11 @@ class DataHandler extends AbstractHandler {
 		$value = $this->storage->get( $key );
 
 		if ( false !== $value && ! $this->background_update() && time() > $this->storage->get( $key, true ) ) {
-			$value = $this->action_update( $key, $data );
+			$action_update = $this->action_update( $key, $data );
+
+			if ( $action_update ) {
+				$value = $action_update;
+			}
 		}
 
 		return $value;
