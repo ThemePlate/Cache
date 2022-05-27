@@ -15,8 +15,14 @@ class FileHandlerTest extends WP_UnitTestCase {
 	private FileHandler $handler;
 
 	protected function setUp(): void {
+		if ( 'test_get_with_tasks' === $this->getName() ) {
+			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
+
+			$tasks->expects( self::once() )->method( 'add' )->willReturnSelf();
+		}
+
 		$this->storage = new OptionsStorage();
-		$this->handler = new FileHandler( $this->storage );
+		$this->handler = new FileHandler( $this->storage, $tasks ?? null );
 	}
 
 	public function test_get_with_nothing_known_yet(): void {
@@ -30,6 +36,15 @@ class FileHandlerTest extends WP_UnitTestCase {
 		$_REQUEST[ StorageInterface::PREFIX . 'refresh' ] = 'unknown';
 
 		$this->assertFalse( $this->handler->get( 'unknown', '' ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		unset( $_REQUEST[ StorageInterface::PREFIX . 'refresh' ] );
+	}
+
+	public function test_get_with_tasks(): void {
+		$saved = get_option( 'blogname' );
+		$value = $this->handler->get( 'blogname', WP_CONTENT_DIR . '/index.php' );
+
+		$this->assertSame( $saved, $value );
 	}
 
 	public function test_get_with_action_update(): void {

@@ -16,8 +16,14 @@ class DataHandlerTest extends WP_UnitTestCase {
 	private DataHandler $handler;
 
 	protected function setUp(): void {
+		if ( 'test_get_with_tasks' === $this->getName() ) {
+			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
+
+			$tasks->expects( self::once() )->method( 'add' )->willReturnSelf();
+		}
+
 		$this->storage = new OptionsStorage();
-		$this->handler = new DataHandler( $this->storage );
+		$this->handler = new DataHandler( $this->storage, $tasks ?? null );
 	}
 
 	public function test_get_with_nothing_known_yet(): void {
@@ -31,6 +37,18 @@ class DataHandlerTest extends WP_UnitTestCase {
 		$_REQUEST[ StorageInterface::PREFIX . 'refresh' ] = 'unknown';
 
 		$this->assertFalse( $this->handler->get( 'unknown', array() ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		unset( $_REQUEST[ StorageInterface::PREFIX . 'refresh' ] );
+	}
+
+	public function test_get_with_tasks(): void {
+		$saved      = get_option( 'blogname' );
+		$callback   = 'uniqid';
+		$expiration = 0;
+
+		$value = $this->handler->get( 'blogname', compact( 'callback', 'expiration' ) );
+
+		$this->assertSame( $saved, $value );
 	}
 
 	public function test_get_with_action_update(): void {
