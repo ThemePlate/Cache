@@ -93,6 +93,16 @@ class CacheManager {
 	}
 
 
+	public function assignment(): array {
+
+		return array(
+			'type' => $this->storage->current(),
+			'ID'   => $this->storage->get()->pointer(),
+		);
+
+	}
+
+
 	private function save_field(): void {
 
 		$storage = $this->storage;
