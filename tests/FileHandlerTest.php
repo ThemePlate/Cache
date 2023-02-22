@@ -18,7 +18,11 @@ class FileHandlerTest extends WP_UnitTestCase {
 		if ( 'test_get_with_tasks' === $this->getName() ) {
 			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
 
-			$tasks->expects( self::once() )->method( 'add' )->willReturnSelf();
+			$tasks->expects( self::once() )->method( 'add' )->willReturnCallback(
+				function( ...$args ) {
+					call_user_func_array( $args[0], $args[1] );
+				}
+			);
 		}
 
 		$this->storage = new class() extends OptionsStorage {
@@ -46,7 +50,10 @@ class FileHandlerTest extends WP_UnitTestCase {
 		$saved = get_option( 'blogname' );
 		$value = $this->handler->get( 'blogname', WP_CONTENT_DIR . '/index.php' );
 
+		// Returned value is from cache
 		$this->assertSame( $saved, $value );
+		// New value saved in background
+		$this->assertNotSame( $value, get_option( 'blogname' ) );
 	}
 
 	public function test_get_with_action_update(): void {
