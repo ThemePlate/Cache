@@ -25,7 +25,7 @@ class Cache {
 	private static ?CacheManager $manager = null;
 	private static ?Tasks $tasks          = null;
 
-	public static function __callStatic( $name, $arguments ) {
+	public static function __callStatic( string $name, array $arguments ) {
 
 		if ( ! self::$manager instanceof CacheManager ) {
 			self::$manager = new CacheManager( self::$tasks );

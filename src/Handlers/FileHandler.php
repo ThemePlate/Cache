@@ -41,7 +41,9 @@ class FileHandler extends AbstractHandler {
 	 */
 	public function set( string $key, array $data ) {
 
-		$value = @file_get_contents( $data['path'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$value = @file_get_contents( $data['path'] ); // phpcs:ignore
 
 		if ( false !== $value ) {
 			$this->storage->set( $key, $data['time'], true );
