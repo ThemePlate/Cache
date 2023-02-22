@@ -58,6 +58,7 @@ abstract class AbstractHandler implements HandlerInterface {
 		$storage = get_class( $this->storage );
 		$pointer = $this->storage->pointer();
 
+		$this->storage->set( $key, time() + ( $data['expiration'] ?? MINUTE_IN_SECONDS ), true );
 		$this->tasks->add( array( static::class, 'update' ), array( $storage, $pointer, $key, $data ) );
 
 		return false;
