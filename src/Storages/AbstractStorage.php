@@ -14,7 +14,7 @@ abstract class AbstractStorage implements StorageInterface {
 
 	protected function transform( string $field_key, bool $is_data ): string {
 
-		return ( $is_data ? self::PREFIX : '' ) . $field_key;
+		return ( $is_data ? static::PREFIX : '' ) . $field_key;
 
 	}
 

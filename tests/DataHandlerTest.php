@@ -22,7 +22,9 @@ class DataHandlerTest extends WP_UnitTestCase {
 			$tasks->expects( self::once() )->method( 'add' )->willReturnSelf();
 		}
 
-		$this->storage = new OptionsStorage();
+		$this->storage = new class() extends OptionsStorage {
+			public const PREFIX = 'tcs_dht_';
+		};
 		$this->handler = new DataHandler( $this->storage, $tasks ?? null );
 	}
 

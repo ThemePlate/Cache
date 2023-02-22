@@ -21,7 +21,9 @@ class FileHandlerTest extends WP_UnitTestCase {
 			$tasks->expects( self::once() )->method( 'add' )->willReturnSelf();
 		}
 
-		$this->storage = new OptionsStorage();
+		$this->storage = new class() extends OptionsStorage {
+			public const PREFIX = 'tcs_fht_';
+		};
 		$this->handler = new FileHandler( $this->storage, $tasks ?? null );
 	}
 
