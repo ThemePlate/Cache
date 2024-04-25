@@ -14,6 +14,7 @@ use WP_UnitTestCase;
 
 class DataHandlerTest extends WP_UnitTestCase {
 	private DataHandler $handler;
+	private object $storage;
 
 	protected function setUp(): void {
 		if ( 'test_get_with_tasks' === $this->getName() ) {

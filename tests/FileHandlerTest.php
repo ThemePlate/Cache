@@ -13,6 +13,7 @@ use WP_UnitTestCase;
 
 class FileHandlerTest extends WP_UnitTestCase {
 	private FileHandler $handler;
+	private object $storage;
 
 	protected function setUp(): void {
 		if ( 'test_get_with_tasks' === $this->getName() ) {

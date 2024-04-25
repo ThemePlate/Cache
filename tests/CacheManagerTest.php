@@ -11,6 +11,7 @@ use WP_UnitTestCase;
 
 class CacheManagerTest extends WP_UnitTestCase {
 	private CacheManager $cache;
+	private array $default;
 
 	protected function setUp(): void {
 		if ( 0 === strpos( $this->getName(), 'test_with_tasks_remember' ) ) {
@@ -112,4 +113,3 @@ class CacheManagerTest extends WP_UnitTestCase {
 		$this->assertSame( file_get_contents( $path ), $value ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 	}
 }
-
