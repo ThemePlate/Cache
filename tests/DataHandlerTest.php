@@ -72,7 +72,7 @@ class DataHandlerTest extends WP_UnitTestCase {
 		$callback   = 'non_callable';
 		$expiration = 20;
 
-		$this->expectErrorMessage( 'Call to undefined function non_callable()' );
+		$this->expectExceptionMessage( 'Call to undefined function non_callable()' );
 
 		$this->handler->set( 'random_key', compact( 'callback', 'expiration' ) );
 	}
