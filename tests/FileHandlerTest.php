@@ -20,7 +20,7 @@ class FileHandlerTest extends WP_UnitTestCase {
 			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
 
 			$tasks->expects( self::once() )->method( 'add' )->willReturnCallback(
-				function ( ...$args ) {
+				function ( ...$args ): void {
 					call_user_func_array( $args[0], $args[1] );
 				}
 			);

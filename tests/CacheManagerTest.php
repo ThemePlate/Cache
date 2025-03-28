@@ -18,7 +18,7 @@ class CacheManagerTest extends WP_UnitTestCase {
 			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
 
 			$tasks->expects( self::atMost( 2 ) )->method( 'add' )->willReturnCallback(
-				function ( $callback, $data ) {
+				function ( $callback, $data ): void {
 					call_user_func_array( $callback, $data );
 				}
 			);
@@ -108,7 +108,7 @@ class CacheManagerTest extends WP_UnitTestCase {
 
 	public function test_file_method(): void {
 		$path  = WP_CONTENT_DIR . '/index.php';
-		$value = $this->cache->file( $this->getName(), $path, 10 );
+		$value = $this->cache->file( $this->getName(), $path );
 
 		$this->assertSame( file_get_contents( $path ), $value ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 	}

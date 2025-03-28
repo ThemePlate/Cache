@@ -12,7 +12,7 @@ use ThemePlate\Process\Tasks;
 
 interface HandlerInterface {
 
-	public function __construct( StorageInterface $storage, Tasks $tasks = null );
+	public function __construct( StorageInterface $storage, ?Tasks $tasks = null );
 
 
 	/**

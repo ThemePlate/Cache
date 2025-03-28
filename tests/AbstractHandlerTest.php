@@ -28,8 +28,7 @@ class AbstractHandlerTest extends WP_UnitTestCase {
 			public function set( string $key, array $data ) {
 				$values = AbstractHandlerTest::RANDOM_VALUES;
 
-				// phpcs:ignore WordPress.WP.AlternativeFunctions.rand_rand
-				$value = $values[ rand( 0, 3 ) ];
+				$value = $values[ random_int( 0, 3 ) ];
 
 				$this->storage->set( $key, $value );
 
