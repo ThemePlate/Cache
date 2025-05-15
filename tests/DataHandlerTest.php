@@ -7,14 +7,14 @@
 namespace Tests;
 
 use ThemePlate\Cache\Handlers\DataHandler;
+use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Cache\Storages\OptionsStorage;
-use ThemePlate\Cache\Storages\StorageInterface;
 use WP_Error;
 use WP_UnitTestCase;
 
 class DataHandlerTest extends WP_UnitTestCase {
 	private DataHandler $handler;
-	private object $storage;
+	private AbstractStorage $storage;
 
 	protected function setUp(): void {
 		if ( 'test_get_with_tasks' === $this->getName() ) {
@@ -41,11 +41,11 @@ class DataHandlerTest extends WP_UnitTestCase {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		global $_REQUEST;
 
-		$_REQUEST[ StorageInterface::PREFIX . 'refresh' ] = 'unknown';
+		$_REQUEST[ $this->storage::PREFIX . 'refresh' ] = 'unknown';
 
 		$this->assertFalse( $this->handler->get( 'unknown', array() ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		unset( $_REQUEST[ StorageInterface::PREFIX . 'refresh' ] );
+		unset( $_REQUEST[ $this->storage::PREFIX . 'refresh' ] );
 	}
 
 	public function test_get_with_tasks(): void {

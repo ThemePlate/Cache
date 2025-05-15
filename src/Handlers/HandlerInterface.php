@@ -7,12 +7,12 @@
 
 namespace ThemePlate\Cache\Handlers;
 
-use ThemePlate\Cache\Storages\StorageInterface;
+use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Process\Tasks;
 
 interface HandlerInterface {
 
-	public function __construct( StorageInterface $storage, ?Tasks $tasks = null );
+	public function __construct( AbstractStorage $storage, ?Tasks $tasks = null );
 
 
 	/**

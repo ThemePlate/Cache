@@ -9,8 +9,6 @@ namespace ThemePlate\Cache\Storages;
 
 interface StorageInterface {
 
-	public const PREFIX = 'tcs_';
-
 	/**
 	 * @return mixed
 	 */

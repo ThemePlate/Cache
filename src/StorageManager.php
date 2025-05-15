@@ -7,6 +7,7 @@
 
 namespace ThemePlate\Cache;
 
+use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Cache\Storages\OptionsStorage;
 use ThemePlate\Cache\Storages\PostMetaStorage;
 use ThemePlate\Cache\Storages\StorageInterface;
@@ -39,7 +40,7 @@ class StorageManager {
 	}
 
 
-	public function get(): StorageInterface {
+	public function get(): AbstractStorage {
 
 		return $this->{$this->current()};
 
@@ -51,7 +52,7 @@ class StorageManager {
 		$decoded    = $this->decode( $field );
 		$this->type = $decoded['type'];
 
-		/** @var StorageInterface $storage */
+		/** @var AbstractStorage $storage */
 		$storage = $this->{$decoded['type']};
 
 		$storage->point( $decoded['id'] );

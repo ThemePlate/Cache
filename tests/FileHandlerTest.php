@@ -7,13 +7,13 @@
 namespace Tests;
 
 use ThemePlate\Cache\Handlers\FileHandler;
+use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Cache\Storages\OptionsStorage;
-use ThemePlate\Cache\Storages\StorageInterface;
 use WP_UnitTestCase;
 
 class FileHandlerTest extends WP_UnitTestCase {
 	private FileHandler $handler;
-	private object $storage;
+	private AbstractStorage $storage;
 
 	protected function setUp(): void {
 		if ( 'test_get_with_tasks' === $this->getName() ) {
@@ -40,11 +40,11 @@ class FileHandlerTest extends WP_UnitTestCase {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		global $_REQUEST;
 
-		$_REQUEST[ StorageInterface::PREFIX . 'refresh' ] = 'unknown';
+		$_REQUEST[ $this->storage::PREFIX . 'refresh' ] = 'unknown';
 
 		$this->assertFalse( $this->handler->get( 'unknown', '' ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		unset( $_REQUEST[ StorageInterface::PREFIX . 'refresh' ] );
+		unset( $_REQUEST[ $this->storage::PREFIX . 'refresh' ] );
 	}
 
 	public function test_get_with_tasks(): void {

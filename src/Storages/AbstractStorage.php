@@ -9,6 +9,9 @@ namespace ThemePlate\Cache\Storages;
 
 abstract class AbstractStorage implements StorageInterface {
 
+	public const PREFIX = 'tcs_';
+
+
 	protected array $collection = array();
 
 
