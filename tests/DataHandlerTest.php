@@ -77,6 +77,7 @@ class DataHandlerTest extends WP_UnitTestCase {
 
 		$this->expectExceptionMessage( 'Call to undefined function non_callable()' );
 
+		// @phpstan-ignore-next-line
 		$this->handler->set( 'random_key', compact( 'callback', 'expiration' ) );
 	}
 

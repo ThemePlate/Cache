@@ -75,6 +75,7 @@ class CacheManagerTest extends WP_UnitTestCase {
 		$callback->expects( self::atMost( 3 ) )->method( 'soft_update' )
 			->willReturn( 'first', 'second', 'third' );
 
+		/** @var callable $callback */
 		$callback = array( $callback, 'soft_update' );
 
 		$value = $this->cache->remember( $this->getName(), $callback, 1 );

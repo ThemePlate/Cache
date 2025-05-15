@@ -10,17 +10,16 @@ namespace ThemePlate\Cache;
 use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Cache\Storages\OptionsStorage;
 use ThemePlate\Cache\Storages\PostMetaStorage;
-use ThemePlate\Cache\Storages\StorageInterface;
 use ThemePlate\Cache\Storages\TermMetaStorage;
 use ThemePlate\Cache\Storages\UserMetaStorage;
 
 class StorageManager {
 
 	private string $type;
-	private StorageInterface $postmeta;
-	private StorageInterface $termmeta;
-	private StorageInterface $usermeta;
-	private StorageInterface $options;
+	private PostMetaStorage $postmeta;
+	private TermMetaStorage $termmeta;
+	private UserMetaStorage $usermeta;
+	private OptionsStorage $options;
 
 
 	public function __construct() {

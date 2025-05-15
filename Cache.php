@@ -37,7 +37,10 @@ class Cache {
 		}
 
 		if ( method_exists( self::$manager, $name ) ) {
-			return call_user_func_array( array( self::$manager, $name ), $arguments );
+			/** @var callable $callback */
+			$callback = array( self::$manager, $name );
+
+			return call_user_func_array( $callback, $arguments );
 		}
 
 		throw new Error( 'Call to undefined method ' . __CLASS__ . '::' . esc_html( $name ) . '()' );
