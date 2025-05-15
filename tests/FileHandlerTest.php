@@ -63,7 +63,7 @@ class FileHandlerTest extends WP_UnitTestCase {
 
 	public function test_set_with_unreadable_content(): void {
 		$path = ABSPATH . 'README.md';
-		$time = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		$time = (int) @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
 		$this->assertFalse( $this->handler->set( 'random_key', compact( 'path', 'time' ) ) );
 		$this->assertFalse( $this->storage->get( 'random_key', true ) );
@@ -72,7 +72,7 @@ class FileHandlerTest extends WP_UnitTestCase {
 
 	public function test_set_with_readable_content(): void {
 		$path = ABSPATH . 'license.txt';
-		$time = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		$time = (int) @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 
 		$this->assertIsString( $this->handler->set( 'random_key', compact( 'path', 'time' ) ) );
 		$this->assertSame( file_get_contents( $path ), $this->storage->get( 'random_key' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents

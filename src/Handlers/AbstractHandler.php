@@ -16,7 +16,7 @@ abstract class AbstractHandler implements HandlerInterface {
 	protected ?Tasks $tasks;
 
 
-	public function __construct( AbstractStorage $storage, Tasks $tasks = null ) {
+	public function __construct( AbstractStorage $storage, ?Tasks $tasks = null ) {
 
 		$this->storage = $storage;
 		$this->tasks   = $tasks;

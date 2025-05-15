@@ -37,7 +37,7 @@ class MetadataStorage extends AbstractStorage {
 
 		$this->collection[ $this->object_id ][ $key ] = $value;
 
-		return update_metadata( $this->meta_type, $this->object_id, $key, $value );
+		return (bool) update_metadata( $this->meta_type, $this->object_id, $key, $value );
 
 	}
 

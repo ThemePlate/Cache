@@ -63,7 +63,7 @@ class CacheManager {
 		$value   = $handler->get( $key, $path );
 
 		if ( false === $value ) {
-			$time  = @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+			$time  = (int) @filemtime( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 			$value = $handler->set( $key, compact( 'path', 'time' ) );
 		}
 
