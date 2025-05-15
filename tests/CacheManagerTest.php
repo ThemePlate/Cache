@@ -66,24 +66,26 @@ class CacheManagerTest extends WP_UnitTestCase {
 	}
 
 	public function test_with_tasks_remember(): void {
-		$callback = $this->getMockBuilder( 'CacheTester' )->setMethods( array( 'soft_update' ) )->getMock();
+		$callback = $this->getMockBuilder( CacheTest::class )->setMethods( array( 'soft_update' ) )->getMock();
 
 		$callback->expects( self::atMost( 3 ) )->method( 'soft_update' )
 			->willReturn( 'first', 'second', 'third' );
 
-		$value = $this->cache->remember( $this->getName(), array( $callback, 'soft_update' ), 1 );
+		$callback = array( $callback, 'soft_update' );
+
+		$value = $this->cache->remember( $this->getName(), $callback, 1 );
 		// Initial value saved with no background then served
 		$this->assertSame( 'first', $value );
 		$this->assertSame( 'first', get_option( $this->getName() ) );
 		sleep( 2 ); // intended sleep time greater than the expiration
 
-		$value = $this->cache->remember( $this->getName(), array( $callback, 'soft_update' ), 1 );
+		$value = $this->cache->remember( $this->getName(), $callback, 1 );
 		// New value saved in background, yet still serving cached
 		$this->assertSame( 'first', $value );
 		$this->assertSame( 'second', get_option( $this->getName() ) );
 		sleep( 2 ); // intended sleep time greater than the expiration
 
-		$value = $this->cache->remember( $this->getName(), array( $callback, 'soft_update' ), 1 );
+		$value = $this->cache->remember( $this->getName(), $callback, 1 );
 		// New value saved in background, yet still serving cached
 		$this->assertSame( 'first', $value );
 		$this->assertSame( 'third', get_option( $this->getName() ) );
