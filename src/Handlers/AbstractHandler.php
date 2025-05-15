@@ -53,6 +53,11 @@ abstract class AbstractHandler implements HandlerInterface {
 	}
 
 
+	/**
+	 * @param array<string, mixed> $data
+	 *
+	 * @return false|mixed
+	 */
 	protected function action_update( string $key, array $data ) {
 
 		if ( ! $this->tasks instanceof Tasks ) {

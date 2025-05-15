@@ -26,6 +26,7 @@ class AbstractHandlerTest extends WP_UnitTestCase {
 		$tasks   = $this->createTestProxy( Tasks::class, array( 'test' ) );
 		$storage = new OptionsStorage();
 		$handler = new class( $storage, $tasks ) extends AbstractHandler {
+			/** @param array<string, mixed> $data */
 			public function set( string $key, array $data ) {
 				$values = AbstractHandlerTest::RANDOM_VALUES;
 

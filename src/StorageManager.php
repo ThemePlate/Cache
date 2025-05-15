@@ -47,6 +47,9 @@ class StorageManager {
 	}
 
 
+	/**
+	 * @param int|string $field
+	 */
 	public function set( $field ): void {
 
 		$decoded    = $this->decode( $field );
@@ -60,6 +63,11 @@ class StorageManager {
 	}
 
 
+	/**
+	 * @param int|string $field
+	 *
+	 * @return array{type: string, id: int}
+	 */
 	private function decode( $field ): array {
 
 		$type = 'options';

@@ -21,6 +21,7 @@ class StorageManagerTest extends WP_UnitTestCase {
 		$this->assertSame( 0, $this->storage->get()->pointer() );
 	}
 
+	/** @return array<string, array{mixed, string, int}> */
 	public function for_setting_fields(): array {
 		return array(
 			'with random string' => array( 'random', 'options', 0 ),
@@ -41,6 +42,8 @@ class StorageManagerTest extends WP_UnitTestCase {
 
 	/**
 	 * @dataProvider for_setting_fields
+	 *
+	 * @param mixed $field
 	 */
 	public function test_setting_fields( $field, string $type, int $id ): void {
 		$this->storage = new StorageManager();

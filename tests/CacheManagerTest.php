@@ -12,6 +12,7 @@ use WP_UnitTestCase;
 
 class CacheManagerTest extends WP_UnitTestCase {
 	private CacheManager $cache;
+	/** @var array{type: string, ID: int} */
 	private array $default;
 
 	protected function setUp(): void {

@@ -16,11 +16,17 @@ interface HandlerInterface {
 
 
 	/**
+	 * @param array<string, mixed> $data
 	 * @return mixed
 	 */
 	public function set( string $key, array $data );
 
 
+	/**
+	 * @param array<string, mixed> $data
+	 *
+	 * @return mixed
+	 */
 	public static function update( string $storage, int $pointer, string $key, array $data );
 
 }

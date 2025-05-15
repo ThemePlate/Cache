@@ -25,6 +25,11 @@ class Cache {
 	private static ?CacheManager $manager = null;
 	private static ?Tasks $tasks          = null;
 
+	/**
+	 * @param mixed[] $arguments
+	 *
+	 * @return mixed
+	 */
 	public static function __callStatic( string $name, array $arguments ) {
 
 		if ( ! self::$manager instanceof CacheManager ) {

@@ -15,6 +15,9 @@ interface StorageInterface {
 	public function get( string $key, bool $data = false );
 
 
+	/**
+	 * @param mixed $value
+	 */
 	public function set( string $key, $value, bool $data = false ): bool;
 
 

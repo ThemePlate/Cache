@@ -20,6 +20,9 @@ class MetadataStorage extends AbstractStorage {
 	}
 
 
+	/**
+	 * @return mixed
+	 */
 	public function get( string $key, bool $data = false ) {
 
 		$key   = $this->transform( $key, $data );
@@ -31,6 +34,9 @@ class MetadataStorage extends AbstractStorage {
 	}
 
 
+	/**
+	 * @param mixed $value
+	 */
 	public function set( string $key, $value, bool $data = false ): bool {
 
 		$key = $this->transform( $key, $data );
