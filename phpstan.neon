@@ -1,7 +1,10 @@
 parameters:
   level: 5
   excludePaths:
-    - vendor
+    analyse:
+      - %currentWorkingDirectory%/dependencies?
+    analyseAndScan:
+      - %currentWorkingDirectory%/vendor
   scanDirectories:
     - %currentWorkingDirectory%/.cache/wordpress
     - %currentWorkingDirectory%/.cache/wordpress-tests-lib
