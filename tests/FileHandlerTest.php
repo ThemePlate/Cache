@@ -9,6 +9,7 @@ namespace Tests;
 use ThemePlate\Cache\Handlers\FileHandler;
 use ThemePlate\Cache\Storages\AbstractStorage;
 use ThemePlate\Cache\Storages\OptionsStorage;
+use ThemePlate\Process\Tasks;
 use WP_UnitTestCase;
 
 class FileHandlerTest extends WP_UnitTestCase {
@@ -17,11 +18,13 @@ class FileHandlerTest extends WP_UnitTestCase {
 
 	protected function setUp(): void {
 		if ( 'test_get_with_tasks' === $this->getName() ) {
-			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
+			$tasks = $this->getMockBuilder( Tasks::class )->disableOriginalConstructor()->setMethods( array( 'add' ) )->getMock();
 
 			$tasks->expects( self::once() )->method( 'add' )->willReturnCallback(
-				function ( ...$args ): void {
+				function ( ...$args ) use ( $tasks ) {
 					call_user_func_array( $args[0], $args[1] );
+
+					return $tasks;
 				}
 			);
 		}

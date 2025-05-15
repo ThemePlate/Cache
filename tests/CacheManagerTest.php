@@ -7,6 +7,7 @@
 namespace Tests;
 
 use ThemePlate\Cache\CacheManager;
+use ThemePlate\Process\Tasks;
 use WP_UnitTestCase;
 
 class CacheManagerTest extends WP_UnitTestCase {
@@ -15,11 +16,13 @@ class CacheManagerTest extends WP_UnitTestCase {
 
 	protected function setUp(): void {
 		if ( 0 === strpos( $this->getName(), 'test_with_tasks_remember' ) ) {
-			$tasks = $this->getMockBuilder( 'ThemePlate\Process\Tasks' )->setMethods( array( 'add' ) )->getMock();
+			$tasks = $this->getMockBuilder( Tasks::class )->disableOriginalConstructor()->setMethods( array( 'add' ) )->getMock();
 
 			$tasks->expects( self::atMost( 2 ) )->method( 'add' )->willReturnCallback(
-				function ( $callback, $data ): void {
+				function ( $callback, $data ) use ( $tasks ) {
 					call_user_func_array( $callback, $data );
+
+					return $tasks;
 				}
 			);
 		}

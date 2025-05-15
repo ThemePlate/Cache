@@ -8,6 +8,7 @@ namespace Tests;
 
 use ThemePlate\Cache\Handlers\AbstractHandler;
 use ThemePlate\Cache\Storages\OptionsStorage;
+use ThemePlate\Process\Tasks;
 use WP_UnitTestCase;
 
 class AbstractHandlerTest extends WP_UnitTestCase {
@@ -22,7 +23,7 @@ class AbstractHandlerTest extends WP_UnitTestCase {
 	);
 
 	public function test_static_update_for_tasks(): void {
-		$tasks   = $this->createTestProxy( 'ThemePlate\Process\Tasks' );
+		$tasks   = $this->createTestProxy( Tasks::class, array( 'test' ) );
 		$storage = new OptionsStorage();
 		$handler = new class( $storage, $tasks ) extends AbstractHandler {
 			public function set( string $key, array $data ) {

@@ -31,6 +31,7 @@
 		"php": "^7.4|^8.2"
 	},
 	"require-dev": {
+		"themeplate/process": "^2.6",
 		"themeplate/tester": "^2.2"
 	},
 	"suggest": {
